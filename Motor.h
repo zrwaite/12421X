@@ -13,6 +13,10 @@ class Motor
     void setName(string);
     void drive(int speed);
     void stop();
+    // Returns the amount of time reuired to travel a given distance at a given speed
+    double DFT(float dist, int speed);
+    // Drives For Distance at Inputted Speed
+    void DD(float distance, int speed);
 
   private:
     string name;

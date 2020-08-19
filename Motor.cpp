@@ -54,3 +54,15 @@ void Motor::stop(){
   else if (name == "Output"){MOutput.stop(vex::brakeType::brake); vex::task::sleep(50); MOutput.stop(vex::brakeType::coast);}
 }
 
+double Motor::DFT(float dist, int speed){
+  double time = dist / (12.56 * speed / 60);
+  return time;
+}
+
+void Motor::DD(float distance, int speed){
+  double time = DFT(distance, speed);
+  drive(speed);
+  wait(time, seconds);
+
+}
+
