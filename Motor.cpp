@@ -18,6 +18,7 @@ void Motor::setName(string a){
   name = a;
 }
 
+//Simple wait function in milliseconds. 
 void Motor::wait(int time){vex::task::sleep(time);}
 
 void Motor::drive(int speed){
@@ -67,3 +68,15 @@ void Motor::brake2(){
 }
 
 void Motor::stop(){brake1(); wait(50); brake2();}
+
+double Motor::DFT(float dist, int speed){
+  double time = dist / (12.56 * speed / 60);
+  return time;
+}
+
+void Motor::DD(float distance, int speed){
+  double time = DFT(distance, speed);
+  drive(speed);
+  wait(time);
+
+}

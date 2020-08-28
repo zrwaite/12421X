@@ -31,9 +31,48 @@ using namespace vex;
 competition Competition;
 
 // Define your global instances of motors and other devices here
+Motor Left1("Left1");
+Motor Left2("Left2");
+Motor Right1("Right1");
+Motor Right2("Right2");
+Motor Input1("Input1");
+Motor Input2("Input2");
+Motor Roller("Roller");
+Motor Output("Output");
 
-/*--------------------------|PID Auto Functions|--------------------------*/
+/*---------------------------------------------------------------------------*/
+/*                          Pre-Autonomous Functions                         */
+/*                                                                           */
+/*  You may want to perform some actions before the competition starts.      */
+/*  Do them in the following function.  You must return from this function   */
+/*  or the autonomous and usercontrol tasks will not be started.  This       */
+/*  function is only called once after the V5 has been powered on and        */
+/*  not every time that the robot is disabled.                               */
+/*---------------------------------------------------------------------------*/
 
+void pre_auton(void) {
+  // Initializing Robot Configuration. DO NOT REMOVE!
+  vexcodeInit();
+
+  // All activities that occur before the competition starts
+  // Example: clearing encoders, setting servo positions, ...
+}
+
+/*---------------------------------------------------------------------------*/
+/*                                                                           */
+/*                              Autonomous Task                              */
+/*                                                                           */
+/*  This task is used to control your robot during the autonomous phase of   */
+/*  a VEX Competition.                                                       */
+/*                                                                           */
+/*  You must modify the code to add your own robot specific commands here.   */
+/*---------------------------------------------------------------------------*/
+
+void autonomous(void) {
+  // ..........................................................................
+  // Insert autonomous user code here.
+  // ..........................................................................
+}
 
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
@@ -45,17 +84,22 @@ competition Competition;
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-//Object Declaration
-Motor Left1("Left1");
-Motor Left2("Left2");
-Motor Right1("Right1");
-Motor Right2("Right2");
-Motor Input1("Input1");
-Motor Input2("Input2");
-Motor Roller("Roller");
-Motor Output("Output");
+void usercontrol(void) {
+  
+    // Sleep the task for a short amount of time to prevent wasted resources.
+    vex::task::sleep(20);
+    while(1){
+      Left1.drive(Controller1.Axis3.position());
+      Left2.drive(Controller1.Axis3.position());
+      Right1.drive(Controller1.Axis2.position());
+      Right2.drive(Controller1.Axis2.position());
+    
 
-//Shorter wait function
+    wait(20, msec); // Sleep the task for a short amount of time to prevent wasted resources.
+    }
+}
+
+//Shorter wait function in milliseconds. 
 void wait(int time){
   vex::task::sleep(time);
 }
@@ -121,8 +165,6 @@ int main() {
   // Set up callbacks for autonomous and driver control periods.
   //Competition.autonomous(autonomous);
   //Competition.drivercontrol(usercontrol);
-
-  
 
   // Prevent main from exiting with an infinite loop.
   while (true) {
