@@ -40,6 +40,14 @@ Motor Input2("Input2");
 Motor Roller("Roller");
 Motor Output("Output");
 
+int AutoDriveSpeed = 100;
+void SpeedUp(){
+  AutoDriveSpeed += 10;
+}
+void SpeedDown(){
+  AutoDriveSpeed -= 10;
+}
+
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
 /*                                                                           */
@@ -84,16 +92,59 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
+
+
 void usercontrol(void) {
   
     // Sleep the task for a short amount of time to prevent wasted resources.
     vex::task::sleep(20);
     while(1){
-      Left1.drive(Controller1.Axis3.position());
-      Left2.drive(Controller1.Axis3.position());
-      Right1.drive(Controller1.Axis2.position());
-      Right2.drive(Controller1.Axis2.position());
-    
+
+      // Roller Control
+      if (Controller1.ButtonL1.pressing()){
+        Roller.drive(200);
+        Output.drive(200);
+
+      }
+      else if (Controller1.ButtonL2.pressing()){
+        Roller.drive(200);
+        Output.drive(-200);
+      }
+      else if (Controller1.ButtonX.pressing()){
+        Roller.drive(-200);
+        Output.drive(-200);
+      }
+      else {
+        Roller.brake1();
+        Output.brake1();
+      }
+
+      // Auto Speed Change
+      Controller1.ButtonRight.pressed(SpeedUp);
+      Controller1.ButtonLeft.pressed(SpeedUp);
+
+      // Auto Drive Forward
+      if (Controller1.ButtonUp.pressing()){
+        Left1.drive(AutoDriveSpeed);
+        Left2.drive(AutoDriveSpeed);
+        Right1.drive(AutoDriveSpeed);
+        Right2.drive(AutoDriveSpeed);
+
+      }
+      else if (Controller1.ButtonDown.pressing()){
+        Left1.drive(-AutoDriveSpeed);
+        Left2.drive(-AutoDriveSpeed);
+        Right1.drive(-AutoDriveSpeed);
+        Right2.drive(-AutoDriveSpeed);
+      }
+      else {
+        // Tank Drive Control
+        Left1.drive((Controller1.Axis3.position() * 2));
+        Left2.drive((Controller1.Axis3.position() * 2));
+        Right1.drive((Controller1.Axis2.position() * 2));
+        Right2.drive((Controller1.Axis2.position() * 2));
+      }
+
 
     wait(20, msec); // Sleep the task for a short amount of time to prevent wasted resources.
     }
@@ -157,6 +208,8 @@ void stops(int num, ...){
   }
   va_end(args);
 }
+
+
 
 //
 // Main will set up the competition functions and callbacks.
