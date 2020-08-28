@@ -18,6 +18,8 @@ void Motor::setName(string a){
   name = a;
 }
 
+void Motor::wait(int time){vex::task::sleep(time);}
+
 void Motor::drive(int speed){
   if (speed > 0){
     if (name == "Left1"){MLeft1.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);}
@@ -43,26 +45,25 @@ void Motor::drive(int speed){
   
 }
 
-void Motor::stop(){
-  if (name == "Left1"){MLeft1.stop(vex::brakeType::brake); vex::task::sleep(50); MLeft1.stop(vex::brakeType::coast);}
-  else if (name == "Left2"){MLeft2.stop(vex::brakeType::brake); vex::task::sleep(50); MLeft2.stop(vex::brakeType::coast);}
-  else if (name == "Right1"){MRight1.stop(vex::brakeType::brake); vex::task::sleep(50); MRight1.stop(vex::brakeType::coast);}
-  else if (name == "Right2"){MRight2.stop(vex::brakeType::brake); vex::task::sleep(50); MRight2.stop(vex::brakeType::coast);}
-  else if (name == "Input1"){MInput1.stop(vex::brakeType::brake); vex::task::sleep(50); MInput1.stop(vex::brakeType::coast);}
-  else if (name == "Input2"){MInput2.stop(vex::brakeType::brake); vex::task::sleep(50); MInput2.stop(vex::brakeType::coast);}
-  else if (name == "Roller"){MRoller.stop(vex::brakeType::brake); vex::task::sleep(50); MRoller.stop(vex::brakeType::coast);}
-  else if (name == "Output"){MOutput.stop(vex::brakeType::brake); vex::task::sleep(50); MOutput.stop(vex::brakeType::coast);}
+void Motor::brake1(){
+  if (name == "Left1"){MLeft1.stop(vex::brakeType::brake);}
+  else if (name == "Left2"){MLeft2.stop(vex::brakeType::brake);}
+  else if (name == "Right1"){MRight1.stop(vex::brakeType::brake);}
+  else if (name == "Right2"){MRight2.stop(vex::brakeType::brake);}
+  else if (name == "Input1"){MInput1.stop(vex::brakeType::brake);}
+  else if (name == "Input2"){MInput2.stop(vex::brakeType::brake);}
+  else if (name == "Roller"){MRoller.stop(vex::brakeType::brake);}
+  else if (name == "Output"){MOutput.stop(vex::brakeType::brake);}
+}
+void Motor::brake2(){
+  if (name == "Left1"){MLeft1.stop(vex::brakeType::coast);}
+  else if (name == "Left2"){MLeft2.stop(vex::brakeType::coast);}
+  else if (name == "Right1"){MRight1.stop(vex::brakeType::coast);}
+  else if (name == "Right2"){MRight2.stop(vex::brakeType::coast);}
+  else if (name == "Input1"){MInput1.stop(vex::brakeType::coast);}
+  else if (name == "Input2"){MInput2.stop(vex::brakeType::coast);}
+  else if (name == "Roller"){MRoller.stop(vex::brakeType::coast);}
+  else if (name == "Output"){MOutput.stop(vex::brakeType::coast);}
 }
 
-double Motor::DFT(float dist, int speed){
-  double time = dist / (12.56 * speed / 60);
-  return time;
-}
-
-void Motor::DD(float distance, int speed){
-  double time = DFT(distance, speed);
-  drive(speed);
-  wait(time, seconds);
-
-}
-
+void Motor::stop(){brake1(); wait(50); brake2();}
