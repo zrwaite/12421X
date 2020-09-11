@@ -253,6 +253,11 @@ void usercontrol(void) {
     else {
       Roller.brake1();
       Output.brake1(); }
+
+    // Intake Control
+    if (Controller1.ButtonR1.pressing()){Input.go(200);}
+    else if (Controller1.ButtonR2.pressing()){Input.go(-200);}
+    else { Input.brake1(); }
   
     // Auto Speed Change
     Controller1.ButtonRight.pressed(SpeedUp);
