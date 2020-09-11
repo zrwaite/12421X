@@ -62,7 +62,7 @@ void goes(int speed, ...){
   //Variadic function commencement
   va_list args;
   va_start(args, speed);
-  string names[8]; //Array of names of motors
+  string names[5]; //Array of names of motors
   int i=0;
   while (i<8){
     char* s = va_arg(args, char * );
@@ -84,7 +84,7 @@ void stops(string first, ...){
   //Variadic function commencement
   va_list args;
   va_start(args, first);
-  string names[8];
+  string names[5];
   names[0] = first;
   int i=1;
   while (i<8){
