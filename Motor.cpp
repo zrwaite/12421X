@@ -14,10 +14,10 @@ void Motor::go(int speed){
   if (speed > 0){
     if (name == "Left"){
       MLeft1.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);
-      MLeft2.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm); }
+      MLeft2.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm); }
     else if (name == "Right"){
       MRight1.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);
-      MRight2.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);}
+      MRight2.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);}
     else if (name == "Input"){
       MInput1.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);
       MInput2.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);}
@@ -27,10 +27,10 @@ void Motor::go(int speed){
     speed = 0 - speed;
     if (name == "Left"){
       MLeft1.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);
-      MLeft2.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);}
+      MLeft2.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);}
     else if (name == "Right"){
       MRight1.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);
-      MRight2.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);}
+      MRight2.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);}
     else if (name == "Input"){
       MInput1.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);
       MInput2.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);}
