@@ -14,9 +14,9 @@ void Motor::go(int speed){
   if (speed > 0){
     if (name == "Left"){
       MLeft1.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);
-      MLeft2.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm); }
+      MLeft2.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm); }
     else if (name == "Right"){
-      MRight1.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);
+      MRight1.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);
       MRight2.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);}
     else if (name == "Input"){
       MInput1.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);
@@ -27,9 +27,9 @@ void Motor::go(int speed){
     speed = 0 - speed;
     if (name == "Left"){
       MLeft1.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);
-      MLeft2.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);}
+      MLeft2.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);}
     else if (name == "Right"){
-      MRight1.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);
+      MRight1.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);
       MRight2.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);}
     else if (name == "Input"){
       MInput1.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);
@@ -66,11 +66,3 @@ void Motor::brake2(){
   else if (name == "Output"){MOutput.stop(vex::brakeType::coast);} }
 
 void Motor::stop(){brake1(); wait(50); brake2();} //Brake 1 and 2 with wait
-
-double Motor::DFT(float dist, int speed){return dist / (12.56 * speed / 60);} // Returns the amount of time reuired to travel a given distance at a given speed
-
-// Drives For Distance at Inputted Speed
-void Motor::DD(float distance, int speed){
-  double time = DFT(distance, speed);
-  go(speed);
-  wait(time);}

@@ -14,8 +14,6 @@ class Motor{
     void brake1(); //Shorter brake function (brake)
     void brake2(); //Shorter brake function (coast)
     void stop(); //Brake 1 and 2 with wait
-    double DFT(float dist, int speed); // Returns the amount of time reuired to travel a given distance at a given speed
-    void DD(float distance, int speed); // Drives For Distance at Inputted Speed
   private:
     string name;
 };
