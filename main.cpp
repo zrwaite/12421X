@@ -44,7 +44,9 @@ Motor Output("Output");
 //VARIABLE DECLARATION
 int ds = 200; //To set the speed for when the driver uses an auto-drive for all motors at once
 double wheel = 4*3.14;
-double width = 15.75*3.14;
+double circ = 15.97*3.14;
+int lSpeed = 0;
+int rSpeed = 0;
 
 //FUNCTION DECLARATION
 //Shortening Functions:
@@ -60,50 +62,54 @@ template <class T>
 void p(T words){Controller1.Screen.print(words);} //Shorter function for printing to the controller screen. 
 void newLine(){Controller1.Screen.newLine();} //Shorter function for printing to the controller screen. 
 
-//Function for moving in a line with the drive motors. 
-void drives(int speed){Left.go(speed); Right.go(speed);}
-//Function for moving in a line with the drive motors. 
-void brakes(){Left.stop(); Right.stop();}
-
 //Automated Drive Functions:
-double TFD(float dist){return 60000*dist/(wheel*ds);} // Returns the amount of time reuired to travel a given distance at a given speed(milliseconds)
+double TFD(float dist, int speed){return 0.9*60000*dist/(wheel*speed);} // Returns the amount of time reuired to travel a given distance at a given speed(milliseconds)
 double SFT(int time, float dist){return 60000*dist/(time*wheel);} // Returns the amount of time reuired to travel a given distance at a given speed(milliseconds)
-double TFTurnD(int deg){return 0.9*ds-75+ 1.2*60000*(width*(deg/360))/(wheel*ds);} // Returns the amount of time reuired to turn a given degree at a given speed(milliseconds)
-double SFTurnT(int time, int deg){
-  double value = 9000/time + (1.2*60000*width*(deg/360))/(wheel*time);
-  if (value>200){p("Not enough Time"); ds = 200; value = TFTurnD(deg);}
-  return value;
-  } 
-void drive(int speed){Left.go(speed); Right.go(speed);}
-void stops(){Left.stop(); Right.stop();}
-void turn(int speed){Left.go(speed); Right.go(-speed);}
-void goD(float d){ //Function for driving a specific distance. 
-  if (d>0){
-    Left.go(ds);
-    Right.go(ds);
-    wait(TFD(d));
+void drive(int speed = ds){Left.go(speed); Right.go(speed);}
+void turn(int speed = ds){Left.go(speed); Right.go(-speed);}
+void brake(){
+  Left.brake2(); Right.brake2();
+  wait(100);
+  Left.brake1(); Right.brake1();}
+void stop(){Left.brake1(); Right.brake1();}
+void aDrive(int dist, int maxSpeed=200){
+  if(dist<(3/2*60000)*wheel*maxSpeed*(3*maxSpeed-1)){return;}
+  int speed = 0;
+  double distTravelled = 0;
+  while(speed<maxSpeed){
+    drive(speed);
+    speed++;
+    wait(3);
+    distTravelled+=(3*wheel*speed)/60000;
   }
-  else{
-    Left.go(-ds);
-    Right.go(-ds);
-    wait(TFD(-d));
+  int ans = TFD(dist-2*distTravelled, maxSpeed);
+  drive(maxSpeed);
+  wait(ans);
+  while(speed>0){
+    drive(speed);
+    speed--;
+    wait(3);
   }
-  Left.stop();
-  Right.stop(); 
 }
-void turnD(float deg){ //Turns clockwise for a certain distance, in degrees. 
-  if (deg>0){
-    Left.go(ds);
-    Right.go(-ds);
-    wait(TFTurnD(deg));
+void aTurn(double deg, int maxSpeed=200){
+  double dist = circ*deg/360;
+  if(dist<(1/2*60000)*wheel*maxSpeed*(maxSpeed-1)){return;}
+  int speed = 0;
+  double distTravelled = 0;
+  while(speed<maxSpeed){
+    turn(speed);
+    speed++;
+    wait(1);
+    distTravelled+=(wheel*speed)/60000;
   }
-  else{
-    Left.go(-ds);
-    Right.go(ds);
-    wait(TFTurnD(-deg));
+  int ans = TFD(dist-2*distTravelled, maxSpeed);
+  turn(maxSpeed);
+  wait(ans);
+  while(speed>0){
+    turn(speed);
+    speed--;
+    wait(1); 
   }
-  Left.stop();
-  Right.stop(); 
 }
 void example(){
   // Written in plain VexCode:
@@ -114,7 +120,6 @@ void example(){
   vex::task::sleep(50);
   MLeft1.stop(vex::brakeType::coast);
   vex::task::sleep(50);
-  
   MLeft1.spin(vex::directionType::fwd,  200, vex::velocityUnits::rpm);
   MLeft2.spin(vex::directionType::fwd,  200, vex::velocityUnits::rpm);
   MRight1.spin(vex::directionType::fwd,  200, vex::velocityUnits::rpm);
@@ -130,11 +135,14 @@ void example(){
   MRight1.stop(vex::brakeType::coast);
   MRight2.stop(vex::brakeType::coast);
   */
-
   //Written in our code:
-  drives(200);
+  drive(200);
   wait(500);
-  brakes();
+  stop();
+}
+void test(){
+  aTurn(60, 100);
+  stop();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -164,20 +172,38 @@ void pre_auton(void) {
 void usercontrol(void) {
   while(1){
     // Roller Control
-    if (Controller1.ButtonL1.pressing()){Roller.go(200); Output.go(200);}
-    else if (Controller1.ButtonL2.pressing()){Roller.go(200); Output.go(-200);}
-    else if (Controller1.ButtonX.pressing()){Roller.go(-200); Output.go(-200);}
-    else {Roller.brake1(); Output.brake1(); }
+    if (Controller1.ButtonL1.pressing()){Roller.go(-200); Output.go(200);}
+    else if (Controller1.ButtonL2.pressing()){Roller.go(-200); Output.go(-200);}
+    else if (Controller1.ButtonX.pressing()){Roller.go(200); Output.go(-200);}
+    else if (Controller1.ButtonB.pressing()){Roller.brake1(); Output.brake1(); }
+    else {Roller.brake2(); Output.brake2(); }
+    if(Controller1.ButtonA.pressing()){
+      test();
+    }
+    //Input Control
+    if (Controller1.ButtonR1.pressing()){Input.go(200);}
+    else if (Controller1.ButtonR2.pressing()){Input.go(-200);}
+    else {Input.brake1();}
     // Auto Speed Change
     if(Controller1.ButtonRight.pressing()){sUp();}
     if(Controller1.ButtonLeft.pressing()){sDown();}
     // Auto Drive Forward
-    if (Controller1.ButtonUp.pressing()){drives(ds);}
-    else if (Controller1.ButtonDown.pressing()){drives(-ds);}
+    if (Controller1.ButtonUp.pressing()){drive(ds); }
+    else if (Controller1.ButtonDown.pressing()){drive(-ds); }
     else {
-      // Tank Drive Control
-      Left.go(Controller1.Axis3.position()*(ds/100));
-      Right.go(Controller1.Axis2.position()*(ds/100)); }
+      if (Controller1.Axis1.position()>0){
+        lSpeed = Controller1.Axis1.position();
+        rSpeed = 0;
+      } else if (Controller1.Axis1.position()<0){
+        rSpeed = -Controller1.Axis1.position();
+        lSpeed = 0;
+      } else{
+        rSpeed = 0;
+        lSpeed = 0;
+      }
+      // Arcade Drive Control
+      Left.go((Controller1.Axis3.position()+Controller1.Axis4.position()+lSpeed)*(ds/100.0));
+      Right.go((Controller1.Axis3.position()-Controller1.Axis4.position()+rSpeed)*(ds/100.0)); }
     
     //Screen Control
     p("Speed: ");
@@ -198,10 +224,8 @@ void usercontrol(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  // ..........................................................................
-  // Insert autonomous user code here.
-  // ..........................................................................
-  brakes();
+  test();
+  stop();
   Roller.stop();
   Input.stop();
   Output.stop();
