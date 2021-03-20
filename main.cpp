@@ -47,6 +47,19 @@ double wheel = 4*3.14;
 double circ = 15.97*3.14;
 int lSpeed = 0;
 int rSpeed = 0;
+vex::motor motors [8] = {
+  MLeft1, 
+  MLeft2,
+  MRight1,
+  MRight2,
+  MRoller,
+  MInput1,
+  MInput2,
+  MOutput,
+  };
+int motori = 0;
+int motornum = 0;
+int motortemp = 0;
  
 //FUNCTION DECLARATION
 //Shortening Functions:
@@ -147,106 +160,84 @@ void aTurn(double deg, int maxSpeed=200){
    }
  }
 }
-void example(){
- // Written in plain VexCode:
- /*
- MLeft1.spin(vex::directionType::fwd,  200, vex::velocityUnits::rpm);
- vex::task::sleep(500);
- MLeft1.stop(vex::brakeType::brake);
- vex::task::sleep(50);
- MLeft1.stop(vex::brakeType::coast);
- vex::task::sleep(50);
- MLeft1.spin(vex::directionType::fwd,  200, vex::velocityUnits::rpm);
- MLeft2.spin(vex::directionType::fwd,  200, vex::velocityUnits::rpm);
- MRight1.spin(vex::directionType::fwd,  200, vex::velocityUnits::rpm);
- MRight2.spin(vex::directionType::fwd,  200, vex::velocityUnits::rpm);
- vex::task::sleep(500);
- MLeft1.stop(vex::brakeType::brake);
- MLeft2.stop(vex::brakeType::brake);
- MRight1.stop(vex::brakeType::brake);
- MRight2.stop(vex::brakeType::brake);
- vex::task::sleep(50);
- MLeft1.stop(vex::brakeType::coast);
- MLeft2.stop(vex::brakeType::coast);
- MRight1.stop(vex::brakeType::coast);
- MRight2.stop(vex::brakeType::coast);
- */
- //Written in our code:
- drive(200);
- wait(500);
- stop();
-}
-void score(int net){  
- if (net==1){
-   Roller.go(-200);
-   Output.go(200);
-   Input.go(200);
-   //drive(-15);
-   wait(100);
-   drive(30);
-   wait(500);
-   Roller.stop();
-   wait(200);
-   Roller.go(-200);
-   wait(300);
-   drive(10);
-   wait(1000);
-   drive(-30);
-   wait(1000);
-   Input.stop();
-   wait(200);
- }
- else if(net==2){
-   drive(-10);
-   wait(50);
-   stop();
-   Roller.go(-200);
-   Output.go(200);
-   Input.go(200);
-   drive(-20);
-   wait(100);
-   stop();
-   wait(550);
-   wait(550);
-   drive(-20);
-   wait(1200);
- }
- Roller.go(200);
- Output.go(-200);
- Input.go(-200);
- }
-void leftAuto(){
+void leftAuto1(){//1 minute auto, starting turning left
+  /*
  aDrive(15, 100);
  aTurn(-92, 100);
  Input.go(200);
- aDrive(34, 150);
- aTurn(-48, 80);
+ for (int i=50; i<=200; i+=50){
+   drive(i);
+   wait(30);
+ }
+ wait(670);
+ Left.stop();
+ wait(350);
+ drive(200);
+ wait(300);
+ stop();
+ //Arrived at first net
  Input.stop();
- //First Net
- aDrive(14, 70);
- score(1);
- aDrive(-26, 120);
- wait(400);
+ //Leave First Net
+ for (int i=50; i<=200; i+=50){
+   drive(-i);
+   wait(30);
+ }
+ wait(480);
+ for (int i=200; i>=0; i-=25){
+   drive(-i);
+   wait(40);
+ }
+ wait(100);
  Output.stop();
  Roller.stop();
  Input.stop();
- aTurn(48, 80);
- //Wall Ball
+ //Turn to Wall Ball
+ aTurn(44, 70);
+ //Grab Wall Ball
  Input.go(200);
  Roller.go(-200);
- aDrive(24, 100);
- wait(200);
- aDrive(-12, 50);
+ for (int i=50; i<=200; i+=50){
+   drive(i);
+   wait(30);
+ }
+ wait(400);
+ for (int i=200; i>=0; i-=25){
+   drive(i);
+   wait(25);
+ }
+ wait(100);
+ for (int i=50; i<=200; i+=50){
+   drive(-i);
+   wait(30);
+ }
+ wait(50);
+ for (int i=200; i>=0; i-=25){
+   drive(-i);
+   wait(25);
+ }
+ wait(300);
  Roller.stop();
- aTurn(92, 100);
- aDrive(35, 130);
- aTurn(-88, 100);
+ //Turn towards middle ball
+ aTurn(87, 70);
+ //Grab middle ball
+ for (int i=50; i<=200; i+=50){
+   drive(i);
+   wait(30);
+ }
+ wait(670);
+ for (int i=200; i>=25; i-=25){
+   drive(i);
+   wait(25);
+ }
+ wait(250);
+ stop();
+ //Turn to 2nd Net
+ aTurn(-91, 80);
  Input.stop();
  //2nd Net
  aDrive(16, 70);
- Left.go(50);
+ */
  wait(100);
- score(2);
  aDrive(-5, 50);
  Input.go(-200);
  wait(200);
@@ -269,6 +260,93 @@ void leftAuto(){
  aDrive(-10, 120);
  aDrive(11, 120);
 }
+void spiny1 (){//Leave first net 15s auto
+   Input.go(200);
+  aDrive(-12, 100);
+   for(int i=0; i<=200; i+=50){
+    Left.go(-i);
+    Right.go(0);
+    wait(34);
+  }
+  wait(70);
+  Input.stop();
+  for(int i=0; i<=200; i+=50){
+    Right.go(i);
+    wait(34);
+  }
+  wait(70);
+  for(int i=-150; i<=200; i+=50){
+    Right.go(i);
+    wait(39);
+  }
+  drive(200);
+  wait(920);
+ }
+void spiny2 (){//Leave second net 15s auto
+  aDrive(-6, 80);
+   Input.go(-200);
+   for(int i=0; i<=200; i+=50){
+    Left.go(0);
+    Right.go(-i);
+    wait(30);
+  }
+  wait(450);
+  Input.stop();
+  for(int i=0; i<=200; i+=50){
+    Left.go(i);
+    wait(30);
+  }
+  wait(500);
+  for(int i=-150; i<=200; i+=50){
+    Right.go(i);
+    wait(30);
+  }
+  drive(200);
+  wait(600);
+  drive(130);
+  Right.stop();
+  Input.go(200);
+  wait(400);
+  drive(200);
+  wait(700);
+ }
+
+void leftAuto3(){//15 second auto starting with left turn
+  drive(50);
+  wait(20);
+  drive(100);
+  wait(20);
+  drive(150);
+  wait(20);
+  drive(200);
+  wait(200);
+  Left.stop();
+  Input.go(200);
+  Roller.go(-200);
+  wait(1100);
+  drive(150);
+  wait(600);
+  Output.go(200);
+  wait(200);
+  drive(30);
+  wait(500);
+  Output.stop();
+  spiny1();
+  Right.stop();
+  wait(590);
+  Right.go(200);
+  Output.go(200);
+  Input.go(200);
+  Roller.go(-200);
+  wait(200);
+  stop();
+  wait(600);
+  Output.stop();
+  wait(1000);
+  spiny2();
+  stop();
+}
+ 
  
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -314,7 +392,7 @@ void usercontrol(void) {
    else if (Controller1.ButtonX.pressing()){Roller.go(200); Output.go(-200);}
    else if (Controller1.ButtonB.pressing()){Roller.brake1(); Output.brake1(); }
    else {Roller.brake2(); Output.brake2(); }
-   if(Controller1.ButtonA.pressing()){pre_auton();}
+   if(Controller1.ButtonA.pressing()){spiny1();}
    //Input Control
    if (Controller1.ButtonR1.pressing()){Input.go(200);}
    else if (Controller1.ButtonR2.pressing()){Input.go(-200);}
@@ -337,12 +415,14 @@ void usercontrol(void) {
        lSpeed = 0;
      }
      // Arcade Drive Control
-     Left.go((Controller1.Axis3.position()+Controller1.Axis4.position()+lSpeed)*(ds/100.0));
-     Right.go((Controller1.Axis3.position()-Controller1.Axis4.position()+rSpeed)*(ds/100.0)); }
+     int leftValue = (Controller1.Axis3.position()+Controller1.Axis4.position()+lSpeed)*(ds/100.0);
+     if (!leftValue){Left.brake1();}
+     else{Left.go(leftValue);}
+     int rightValue = (Controller1.Axis3.position()-Controller1.Axis4.position()+rSpeed)*(ds/100.0);
+     if (!rightValue){Right.brake1();}
+     else{Right.go(rightValue);}
+   }
    //Screen Control
-   p("Speed: ");
-   p(ds);
-   p("; ");
    newLine();
    clear();
    wait(20);// Wait for a short amount of time to prevent wasted resources.
@@ -358,8 +438,8 @@ void usercontrol(void) {
 /*---------------------------------------------------------------------------*/
  
 void autonomous(void) {
- pre_auton();
- leftAuto();
+ //pre_auton();
+ leftAuto1();
  stop();
  Roller.stop();
  Input.stop();
@@ -372,11 +452,8 @@ int main() {
  // Set up callbacks for autonomous and driver control periods.
  Competition.autonomous(autonomous);
  Competition.drivercontrol(usercontrol);
- 
  // Prevent main from exiting with an infinite loop.
  while (true) {
    wait(50, msec);
  }
 }
- 
-

@@ -1,6 +1,4 @@
- 
- 
- #include "vex.h"
+#include "vex.h"
 #include "Motor.h"
 #include <string>
  
@@ -24,7 +22,7 @@ void Motor::go(int speed){
      MInput1.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);
      MInput2.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);}
    else if (name == "Roller"){MRoller.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);}
-   else if (name == "Output"){MOutput.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);} }
+   else if (name == "Output"){MOutput.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);} }
  else{
    speed = 0 - speed;
    if (name == "Left"){
@@ -37,7 +35,7 @@ void Motor::go(int speed){
      MInput1.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);
      MInput2.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);}
    else if (name == "Roller"){MRoller.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);}
-   else if (name == "Output"){MOutput.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);} } }
+   else if (name == "Output"){MOutput.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);} } }
  
 //Shorter brake function (brake)
 void Motor::brake1(){
