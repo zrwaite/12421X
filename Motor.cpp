@@ -21,7 +21,7 @@ void Motor::go(int speed){
    else if (name == "Input"){
      MInput1.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);
      MInput2.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);}
-   else if (name == "Roller"){MRoller.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);}
+   else if (name == "Roller"){MRoller.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);}
    else if (name == "Output"){MOutput.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);} }
  else{
    speed = 0 - speed;
@@ -34,7 +34,7 @@ void Motor::go(int speed){
    else if (name == "Input"){
      MInput1.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);
      MInput2.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);}
-   else if (name == "Roller"){MRoller.spin(vex::directionType::rev,  speed, vex::velocityUnits::rpm);}
+   else if (name == "Roller"){MRoller.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);}
    else if (name == "Output"){MOutput.spin(vex::directionType::fwd,  speed, vex::velocityUnits::rpm);} } }
  
 //Shorter brake function (brake)
