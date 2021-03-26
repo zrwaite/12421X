@@ -160,24 +160,9 @@ void aTurn(double deg, int maxSpeed=200){
    }
  }
 }
-void leftAuto1(){//1 minute auto, starting turning left
-  /*
- aDrive(15, 100);
- aTurn(-92, 100);
- Input.go(200);
- for (int i=50; i<=200; i+=50){
-   drive(i);
-   wait(30);
- }
- wait(670);
- Left.stop();
- wait(350);
- drive(200);
- wait(300);
- stop();
- //Arrived at first net
- Input.stop();
- //Leave First Net
+void wallballside(){
+  Input.go(-200);
+  //Leave First Net
  for (int i=50; i<=200; i+=50){
    drive(-i);
    wait(30);
@@ -224,41 +209,100 @@ void leftAuto1(){//1 minute auto, starting turning left
    drive(i);
    wait(30);
  }
- wait(670);
+ wait(680);
  for (int i=200; i>=25; i-=25){
    drive(i);
    wait(25);
  }
- wait(250);
+ wait(300);
  stop();
  //Turn to 2nd Net
- aTurn(-91, 80);
+ aTurn(-93, 80);
  Input.stop();
  //2nd Net
  aDrive(16, 70);
- */
  wait(100);
- aDrive(-5, 50);
- Input.go(-200);
+ //Leave 2nd Net
+ for (int i=50; i<=200; i+=50){
+   drive(-i);
+   wait(30);
+ }
+ wait(150);
+ for (int i=200; i>=25; i-=25){
+   drive(-i);
+   wait(25);
+ }
  wait(200);
- aTurn(180, 100);
- Input.go(200);
- Output.stop();
- Roller.go(-200);
- //3rd Net
- aDrive(15, 70);
+ //Turn towards other wall
+ aTurn(89, 80);
+ //Swing Turn Wall ball
+ for (int i=50; i<=200; i+=50){
+   drive(i);
+   wait(30);
+ }
+ wait(420);
+ Left.stop();
+ wait(620);
+ drive(200);
+ wait(400);
+ stop();
  wait(200);
- aDrive(20, 100);
- Roller.stop();
+ //Spin turn to get in net without hitting ball
  Input.go(-200);
- aDrive(-10, 120);
- aDrive(11, 120);
- aDrive(-10, 120);
- aDrive(11, 120);
- aDrive(-10, 120);
- aDrive(11, 120);
- aDrive(-10, 120);
- aDrive(11, 120);
+ for (int i=50; i<=200; i+=50){
+   Right.go(-i);
+   wait(30);
+ }
+ wait(400);
+ for (int i=200; i>=0; i-=25){
+   Right.go(-i);
+   wait(20);
+ }
+ for (int i=50; i<=200; i+=50){
+   drive(i);
+   wait(30);
+ }
+ wait(360);
+ Left.stop();
+ wait(240);
+ drive(200);
+ wait(300);
+ stop();
+}
+void leftAuto1(){//1 minute auto, starting turning left
+ aDrive(16, 100);
+ aTurn(-88, 100);
+ Input.go(200); //For grabbing first ball
+ for (int i=50; i<=200; i+=50){
+   drive(i);
+   wait(30);
+ }
+ Roller.go(); //starts moving pre-load
+ wait(300);
+ Roller.stop(); //stops moving pre-load
+ wait(120);
+ Left.stop(); //Starts turning left
+ wait(300);
+ drive(200); //drives towards net
+ wait(50);
+ Output.go(); //Throws pre-load then first ball
+ wait(150);
+ Roller.go(); //Starts moving 2nd ball
+ for (int i=200; i>=50; i-=25){ //slows down towards net
+   drive(i);
+   wait(40);
+ }
+ drive(50);
+ wait(200);
+ drive(-20);
+ wait(200);
+ stop();
+ wait(1000);
+ //Arrived at first net
+ wallballside();
+ wallballside();
+ wallballside();
+ wallballside();
 }
 void spiny1 (){//Leave first net 15s auto
    Input.go(200);
@@ -322,7 +366,7 @@ void leftAuto3(){//15 second auto starting with left turn
   wait(200);
   Left.stop();
   Input.go(200);
-  Roller.go(-200);
+  Roller.go(200);
   wait(1100);
   drive(150);
   wait(600);
@@ -337,7 +381,7 @@ void leftAuto3(){//15 second auto starting with left turn
   Right.go(200);
   Output.go(200);
   Input.go(200);
-  Roller.go(-200);
+  Roller.go(200);
   wait(200);
   stop();
   wait(600);
@@ -366,7 +410,7 @@ void pre_auton(void) {
  drive(200);
  wait(200);
  drive(-200);
- Roller.go(-200);
+ Roller.go();
  wait(200);
  Roller.stop();
  drive(-100);
@@ -387,14 +431,14 @@ void pre_auton(void) {
 void usercontrol(void) {
  while(1){
    // Roller Control
-   if (Controller1.ButtonL1.pressing()){Roller.go(-200); Output.go(200);}
-   else if (Controller1.ButtonL2.pressing()){Roller.go(-200); Output.go(-200);}
-   else if (Controller1.ButtonX.pressing()){Roller.go(200); Output.go(-200);}
+   if (Controller1.ButtonL1.pressing()){Roller.go(); Output.go();}
+   else if (Controller1.ButtonL2.pressing()){Roller.go(); Output.go(-200);}
+   else if (Controller1.ButtonX.pressing()){Roller.go(-200); Output.go(-200);}
    else if (Controller1.ButtonB.pressing()){Roller.brake1(); Output.brake1(); }
    else {Roller.brake2(); Output.brake2(); }
    if(Controller1.ButtonA.pressing()){spiny1();}
    //Input Control
-   if (Controller1.ButtonR1.pressing()){Input.go(200);}
+   if (Controller1.ButtonR1.pressing()){Input.go();}
    else if (Controller1.ButtonR2.pressing()){Input.go(-200);}
    else {Input.brake1();}
    // Auto Speed Change
@@ -438,7 +482,7 @@ void usercontrol(void) {
 /*---------------------------------------------------------------------------*/
  
 void autonomous(void) {
- //pre_auton();
+ pre_auton();
  leftAuto1();
  stop();
  Roller.stop();
