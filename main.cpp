@@ -143,7 +143,6 @@ void aTurn(double deg, int maxSpeed=200){
   }
 }
 void wallballside(){
-  /*
   //Leave First Net
   for (int i=50; i<=200; i+=50){Right.go(-i/2); Left.go(-i);wait(30);} //Accelerate away from net
   wait(100);
@@ -185,7 +184,6 @@ void wallballside(){
   wait(350);
   Roller.go();
   for (int i=100; i>=0; i-=25){drive(i); wait(25);} //Decelerate to net
-  */
   Roller.go(); //Comment line above for start at 2nd net, delete these 
   Output.go();
   Input.go();
@@ -534,10 +532,11 @@ void usercontrol(void) {
 }
 void autonomous(void) {
   //pre_auton();
+  leftAuto1()
   //wallballside();
-  wshapeside1();
-  farcorner();
-  wallballside();
+  //wshapeside1();
+  //farcorner();
+  //wallballside();
   //wshapeside2();
   stop();
   Roller.stop();
