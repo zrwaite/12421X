@@ -12,6 +12,7 @@
 #include "Motor.h"
 #include <cmath>
 #include <string>
+#include <math.h>
 using namespace vex;
 competition Competition;
  
@@ -142,15 +143,15 @@ void aTurn(double deg, int maxSpeed=200){
     }
   }
 }
-void wallballside(){
+void wallballside1(){
   //Leave First Net
   for (int i=50; i<=200; i+=50){Right.go(-i/2); Left.go(-i);wait(30);} //Accelerate away from net
   wait(100);
   Input.go(-200); //Start spitting out blue balls
   Roller.go(-200);
   wait(490);
-  for (int i=200; i>=0; i-=25){Right.go(-i/2); Left.go(-i); wait(40);}//Decelerate and stop
-  wait(100);
+  for (int i=200; i>=0; i-=25){Right.go(-i/2); Left.go(-i); wait(60);}//Decelerate and stop
+  wait(200);
   Output.stop();
   Roller.stop();
   //Turn to Wall Ball
@@ -159,176 +160,285 @@ void wallballside(){
   Input.go();
   Roller.go();
   for (int i=50; i<=200; i+=50){drive(i); wait(30);} //Accelerate to ball
-  wait(400);
+  wait(450);
   for (int i=200; i>=0; i-=25){drive(i); wait(25);} //Decelerate to ball
-  wait(100);
-  for (int i=50; i<=200; i+=50){Right.go(-i);wait(30);} //Turn away from wall to next ball
-  wait(405);
-  for (int i=200; i>=0; i-=25){Right.go(-i); wait(40);}//Decelerate and stop
+  wait(200);
+  for (int i=50; i<=200; i+=50){Right.go(-i); Left.go(-i*0.1); wait(30);} //Turn away from wall to next ball
+  wait(432); //Turn angle
+  for (int i=200; i>=0; i-=25){Right.go(-i); Left.go(-i*0.12); wait(40);}//Decelerate and stop
   wait(100);
   //Grab middle ball
   for (int i=25; i<=200; i+=25){drive(i); wait(30);} //Accelerate towards ball
-  wait(230);
+  wait(220);
   Roller.stop(); //Stop ball
   Input.go();//Grab ball
   for (int i=200; i>=100; i-=25){drive(i); wait(40);} //Decelerate to ball
-  wait(250); //Slowly move into ball
+  wait(230); //Slowly move into ball
   for (int i=100; i<=200; i+=25){drive(i); wait(40);} //Acclerate into place of net
   for (int i=200; i>=0; i-=25){drive(i); wait(40);} //Decelerate into place of net
   stop();
   //Turn to 2nd Net
-  aTurn(-96, 80);
+  aTurn(-93, 80);
   //2nd Net
   for (int i=50; i<=100; i+=50){drive(i); wait(30);} //Accelerate to net
   Output.go();
-  wait(350);
+  wait(380);
   Roller.go();
-  for (int i=100; i>=0; i-=25){drive(i); wait(25);} //Decelerate to net
+  for (int i=100; i>=0; i-=25){drive(i); wait(40);} //Decelerate to net
   Roller.go(); //Comment line above for start at 2nd net, delete these 
   Output.go();
   Input.go();
-  wait(800);
+  wait(720);
   Roller.stop();
-  wait(400);
+  Input.stop();
+  wait(500);
   //Leave 2nd Net
   for (int i=50; i<=200; i+=50){drive(-i); wait(30);}
   Output.stop();
-  wait(150);
-  for (int i=200; i>=25; i-=25){drive(-i); wait(25);}
+  for (int i=200; i>=25; i-=25){drive(-i); wait(50);}
   wait(200);
   Input.go(); //Spittin straight facts (and blue balls)
   Roller.go();
   Output.go(-200);
   //Turn towards other wall
-  aTurn(89, 80);
+  aTurn(82, 70);
   //Swing Turn Wall ball
   for (int i=50; i<=200; i+=50){drive(i); wait(30);} //Drive straight
-  wait(350);
+  wait(410);
   Input.go();
   Left.stop(); //Start turning left
   wait(620);
-  drive(200);
+  Right.go();
+  Left.go(170);
   Output.stop();
   Roller.stop();
-  wait(400);
+  wait(600);
   stop(); //Slam into wall
-  wait(200);
+  wait(300);
   //Spin turn to get in net without hitting ball
   for (int i=50; i<=200; i+=50){Right.go(-i); wait(30);} //Accelerate turning clockwise with right
-  wait(400);
+  wait(420);
   Roller.go();
   for (int i=200; i>=0; i-=25){Right.go(-i); wait(20);} //Decelerate turning clockwise with right. 
   for (int i=50; i<=200; i+=50){drive(i); wait(30);} //Accelerate forward
-  wait(360);
+  wait(330);
   Left.stop(); //Turn towards net
-  wait(240);
+  wait(230);
   drive(200); //Drive stright to net
   Roller.go();
   Output.go();
-  wait(300);
+  wait(280);
+  for (int i=200; i<=0; i-=25){drive(i); wait(40);}
   stop(); 
 }
-void wshapeside1(){//Net G to D
+void wallballside2(){
+  //Leave First Net
+  for (int i=50; i<=200; i+=50){Right.go(-i/2); Left.go(-i);wait(30);} //Accelerate away from net
+  wait(100);
+  Input.go(-200); //Start spitting out blue balls
+  Roller.go(-200);
+  wait(500);
+  for (int i=200; i>=0; i-=25){Right.go(-i/2); Left.go(-i); wait(60);}//Decelerate and stop
+  wait(200);
+  Output.stop();
+  Roller.stop();
+  //Turn to Wall Ball
+  aTurn(86, 70);
+  //Grab Wall Ball
+  Input.go();
+  Roller.go();
+  for (int i=50; i<=200; i+=50){drive(i); wait(30);} //Accelerate to ball
+  wait(450);
+  for (int i=200; i>=0; i-=25){drive(i); wait(25);} //Decelerate to ball
+  wait(200);
+  for (int i=50; i<=200; i+=50){Right.go(-i); Left.go(-i*0.1); wait(30);} //Turn away from wall to next ball
+  wait(460); //Turn angle
+  for (int i=200; i>=0; i-=25){Right.go(-i); Left.go(-i*0.12); wait(40);}//Decelerate and stop
+  wait(100);
+  //Grab middle ball
+  for (int i=25; i<=200; i+=25){drive(i); wait(30);} //Accelerate towards ball
+  wait(220);
+  Roller.stop(); //Stop ball
+  Input.go();//Grab ball
+  for (int i=200; i>=100; i-=25){drive(i); wait(40);} //Decelerate to ball
+  wait(230); //Slowly move into ball
+  for (int i=100; i<=200; i+=25){drive(i); wait(40);} //Acclerate into place of net
+  for (int i=200; i>=0; i-=25){drive(i); wait(40);} //Decelerate into place of net
+  stop();
+  //Turn to 2nd Net
+  aTurn(-93, 80);
+  //2nd Net
+  for (int i=50; i<=100; i+=50){drive(i); wait(30);} //Accelerate to net
+  Output.go();
+  wait(380);
+  Roller.go();
+  for (int i=100; i>=0; i-=25){drive(i); wait(40);} //Decelerate to net
+  Roller.go(); //Comment line above for start at 2nd net, delete these 
+  Output.go();
+  Input.go();
+  wait(720);
+  Roller.stop();
+  Input.stop();
+  wait(500);
+  //Leave 2nd Net
+  for (int i=50; i<=200; i+=50){drive(-i); wait(30);}
+  Output.stop();
+  for (int i=200; i>=25; i-=25){drive(-i); wait(50);}
+  wait(200);
+  Input.go(); //Spittin straight facts (and blue balls)
+  Roller.go();
+  Output.go(-200);
+  //Turn towards other wall
+  aTurn(82, 70);
+  //Swing Turn Wall ball
+  for (int i=50; i<=200; i+=50){drive(i); wait(30);} //Drive straight
+  wait(410);
+  Input.go();
+  Left.stop(); //Start turning left
+  wait(620);
+  Right.go();
+  Left.go(170);
+  Output.stop();
+  Roller.stop();
+  wait(600);
+  stop(); //Slam into wall
+  wait(300);
+  //Spin turn to get in net without hitting ball
+  for (int i=50; i<=200; i+=50){Right.go(-i); wait(30);} //Accelerate turning clockwise with right
+  wait(390);
+  Roller.go();
+  for (int i=200; i>=0; i-=25){Right.go(-i); wait(20);} //Decelerate turning clockwise with right. 
+  for (int i=50; i<=200; i+=50){drive(i); wait(30);} //Accelerate forward
+  wait(260);
+  Left.stop(); //Turn towards net
+  wait(210);
+  drive(200); //Drive stright to net
+  Roller.go();
+  Output.go();
+  wait(340);
+  for (int i=200; i<=0; i-=25){drive(i); wait(40);}
+  stop(); 
+}
+void wshapeside1(){//Net G to D and Net C to F
   Input.go();
   Roller.go();
   Output.go();
-  wait(800);
-  Output.go(-200);
-  wait(300);
-  for (int i=25; i<=100; i+=25){drive(-i); wait(30);} //Backs up 
-  wait(280);
+  wait(850);
+  Output.go(-100);
+  Roller.go(200);
+  wait(200);
+  for (int i=25; i<=100; i+=25){Right.go(-i); Left.go(-i*0.4); wait(30);} //Backs up 
+  Roller.stop();//Stop pooping when slamming into wall
+  Output.stop();
+  wait(235);
+  Input.stop();
   for (int i=100; i>=0; i-=25){drive(-i); wait(20);} //Decelerates
   wait(100);
-  for (int i=0; i<=200; i+=25){Right.go(-i); Left.go(i); wait(30);} //Point turn clockwise
+  for (int i=0; i<=200; i+=25){Right.go(-i); Left.go(i*0.8); wait(30);} //Point turn clockwise
   wait(220);
-  Left.go(-20); //Spin turn
+  Left.go(-100); //Spin turn
   Input.stop(); //Stop inputting temporarily to save energy
-  Roller.stop();//Stop pooping when slamming into wall
   wait(200);
   Output.stop();
-  wait(200);
+  wait(185);
   Left.go(-200);
   Right.go(-50);//Align using wall
   wait(400);
   drive(-200);
   wait(200);
   stop(); //Stop 
-  for (int i=0; i<=200; i+=25){drive(i); wait(30);} //Accelerate forward
+  for (int i=0; i<=125; i+=25){drive(i); wait(40);} //Accelerate forward
   Input.go();
   Roller.go(); //Commence the pooping
   Output.go(-200);
-  drive(); //Drive towards ball
-  wait(1000);
+  drive(130); //Drive towards ball
+  wait(1550);
+  Right.go();
   Left.stop(); //Spin turn into net
-  wait(300);
+  Output.stop();
+  wait(200);
+  wait(540);
   Output.go();
-  wait(500);
-  drive(200); //Drive into net
-  wait(350);
+  drive(); //Drive into net
+  wait(370);
   stop(); //@2nd net in line
   wait(800);
 }
-void wshapeside2(){//Net C to F
+void wshapeside2(){// Longer pull
   Input.go();
   Roller.go();
   Output.go();
-  wait(1000);
-  Output.go(-200);
+  wait(800);
+  Output.stop();
+  wait(500);
+  Output.go(-100);
+  Roller.go(200);
   wait(300);
-  for (int i=25; i<=100; i+=25){drive(-i); wait(30);} //Backs up 
-  wait(280);
-  for (int i=100; i>=0; i-=25){drive(-i); wait(20);} //Decelerates
-  wait(100);
-  for (int i=0; i<=200; i+=25){Right.go(-i); Left.go(i); wait(30);} //Point turn clockwise
-  wait(180);
-  Left.stop(); //Spin turn
-  Input.stop(); //Stop inputting temporarily to save energy
-  wait(200);
+  for (int i=25; i<=100; i+=25){Right.go(-i); Left.go(-i*0.4); wait(30);} //Backs up 
   Roller.stop();//Stop pooping when slamming into wall
   Output.stop();
+  wait(230);
+  Input.stop();
+  for (int i=100; i>=0; i-=25){drive(-i); wait(20);} //Decelerates
+  wait(100);
+  for (int i=0; i<=200; i+=25){Right.go(-i); Left.go(i*0.8); wait(30);} //Point turn clockwise
+  wait(220);
+  Left.go(-100); //Spin turn
+  Input.stop(); //Stop inputting temporarily to save energy
   wait(200);
+  Output.stop();
+  wait(185);
   Left.go(-200);
   Right.go(-50);//Align using wall
   wait(400);
   drive(-200);
   wait(200);
   stop(); //Stop 
-  for (int i=0; i<=200; i+=25){drive(i); wait(30);} //Accelerate forward
+  for (int i=0; i<=125; i+=25){drive(i); wait(40);} //Accelerate forward
   Input.go();
   Roller.go(); //Commence the pooping
   Output.go(-200);
-  drive(); //Drive towards ball
-  wait(1070);
+  drive(130); //Drive towards ball
+  wait(1230);
+  Output.stop();
+  wait(300);
+  Right.go();
   Left.stop(); //Spin turn into net
-  wait(270);
+  wait(200);
+  wait(540);
   Output.go();
-  wait(600);
-  drive(200); //Drive into net
+  drive(); //Drive into net
   wait(350);
   stop(); //@2nd net in line
-  wait(800);
+  wait(600);
+  Roller.go(100);
+  wait(200);
 }
 void farcorner(){ //Net D to net A
+  Output.go(-100);
   for (int i=50; i<=200; i+=50){drive(-i); wait(40);}//Accelerate away from net
   Input.go(); //Pooper
-  Roller.go();
-  Output.go(-200);
+  Roller.go(100);
   wait(50);
   for (int i=200; i>=0; i-=25){drive(-i); wait(40);} //Decelerate
-  wait(50);
+  wait(0);
   //Turn towards other ball
-  aTurn(91, 80);
+  aTurn(93, 80);
+  Roller.go();
+  Output.go(-200);
   for (int i=50; i<=200; i+=50){drive(i); wait(30);}//Accelerate towards ball
   drive(200);
-  wait(350);
-  drive(150);
+  wait(175);
+  drive(165);
+  wait(175);
+  drive(130);
   Output.stop();
   Roller.stop();
   wait(250);
   drive(200);
-  wait(250);
+  wait(320);
   Left.stop(); //Starts turning left
-  wait(280);
+  wait(310);
   drive(200); //drives towards net
   wait(250);
   Output.go(); //Throws pre-load then first ball
@@ -341,37 +451,89 @@ void farcorner(){ //Net D to net A
   wait(1000);
   Roller.stop();
   wait(500);
+}
+void middleGoal(){
+  Output.stop();
+  Roller.stop();
+  for (int i=0; i<=175; i+=25){drive(-i); wait(20);} //LEAVES NET
+  for (int i=175; i>=0; i-=25){drive(-i); wait(40);} //LEAVES NET
+  wait(150);
+  for (int i=0; i<=150; i+=25){Right.go(-i); Left.go(i); wait(40);} //Spins
+  wait(460);
+  Roller.go();
+  for (int i=150; i>=0; i-=25){Right.go(-i); Left.go(i); wait(40);} //Spins
+  Output.go(-200);
+  Input.go();
+  wait(100);
+  for (int i=0; i<=75; i+=25){drive(i);  wait(50);} //Drive
+  wait(300);
+  Roller.stop();
+  Output.stop();
+  drive(150); //Drive straight, fast
+  wait(100);
+  Left.go(50); //Spin turn
+  Roller.go();
+  wait(175);
+  drive(200); //Drive fast to net
+  wait(400);
+  Right.stop(); //Swing turn around net 
+  Output.go();
+  wait(500);
+  Left.go(200);
+  wait(500);
+  Input.go(-200); //Push balls
+  wait(1000);
+  Output.go(-200);
+  Right.go(-50);
+  wait(500);
+  Output.go();
+  Right.stop();
+  wait(500);
+  for(int i=0; i<=200; i+=25){Left.go(-i); Right.go(-i*0.8); wait(25);}
+  for(int i=200; i>=0; i-=25){Left.go(-i); Right.go(-i*0.8); wait(50);}
+  wait(100);
+  for(int i=0; i<=200; i+=25){Left.go(i); Right.go(i*0.8); wait(25);}
+  for(int i=200; i>=0; i-=25){Left.go(i); Right.go(i*0.8); wait(50);}
+  wait(100);
+  for(int i=0; i<=200; i+=25){Left.go(-i); Right.go(-i*0.8); wait(25);}
+  for(int i=200; i>=0; i-=25){Left.go(-i); Right.go(-i*0.8); wait(50);}
+  wait(100);
+  for(int i=0; i<=200; i+=25){Left.go(i); Right.go(i*0.8); wait(25);}
+  for(int i=200; i>=0; i-=25){Left.go(i); Right.go(i*0.8); wait(50);}
 }
 void leftAuto1(){//1 minute auto, starting turning left
   drive(50);
   wait(150);
   Left.stop();
-  for (int i=100; i<=200; i+=50){Right.go(i); wait(30);}
+  for (int i=100; i<=200; i+=50){Right.go(i); wait(35);}
   Input.go(200); //For grabbing first ball
-  wait(430);
+  wait(415); //Turn angle
   for (int i=100; i<=200; i+=50){Left.go(i); wait(10);}
   for (int i=50; i<=200; i+=50){drive(i); wait(30);}
   Roller.go(); //starts moving pre-load
-  wait(230);
+  wait(170);
   Roller.stop(); //stops moving pre-load
   Left.stop(); //Starts turning left
-  wait(410);
+  wait(430);
   drive(200); //drives towards net
-  wait(220);
+  wait(420);
   Output.go(); //Throws pre-load then first ball
-  wait(120);
-  Roller.go(); //Starts moving 2nd ball
   for (int i=200; i>=25; i-=25){drive(i); wait(25);} //slows down towards net
   drive(25); //Moves slowly to net
   wait(50);
+  Roller.go(); //Starts moving 2nd ball
   stop(); //Stay in place distanced from net
-  wait(1100);
+  wait(800);
+  Roller.stop();
+  wait(200);
+  wait(250);
   //Arrived at first net
-  wallballside();
+  wallballside1();
   wshapeside1();
   farcorner();
-  wallballside();
+  wallballside2();
   wshapeside2();
+  middleGoal();
 }
 void spiny1 (){//Leave first net 15s auto
   aDrive(-13, 100);
@@ -473,7 +635,7 @@ void pre_auton(void) {
   Roller.stop();
   drive(-100);
   wait(300);
-  drive(-50);
+  Right.go(-55);
   wait(800);
   stop();
 }
@@ -532,12 +694,13 @@ void usercontrol(void) {
 }
 void autonomous(void) {
   //pre_auton();
-  leftAuto1()
+  leftAuto1();
   //wallballside();
   //wshapeside1();
   //farcorner();
   //wallballside();
   //wshapeside2();
+  //middleGoal();
   stop();
   Roller.stop();
   Input.stop();
