@@ -7,34 +7,34 @@
 <table>
 	<tr>
 		<td>
-			<img src="./images/robot1.HEIC">
+			<img src="./images/robot1.jpg">
 		</td>
 		<td>
-			<img src="./images/robot2.HEIC">
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<img src="./images/robot3.HEIC">
-		</td>
-		<td>
-			<img src="./images/robot4.HEIC">
+			<img src="./images/robot2.jpg">
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<img src="./images/robot5.HEIC">
+			<img src="./images/robot3.jpg">
 		</td>
 		<td>
-			<img src="./images/robot6.HEIC">
+			<img src="./images/robot4.jpg">
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<img src="./images/robot7.HEIC">
+			<img src="./images/robot5.jpg">
 		</td>
 		<td>
-			<img src="./images/robot8.HEIC">
+			<img src="./images/robot6.jpg">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<img src="./images/robot7.jpg">
+		</td>
+		<td>
+			<img src="./images/robot8.jpg">
 		</td>
 	</tr>
 
